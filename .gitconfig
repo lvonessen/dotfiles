@@ -9,3 +9,5 @@
         branch = false
 [oh-my-zsh]
         hide-info = 1
+[rebase]
+        updateRefs = true
