@@ -11,3 +11,7 @@
         hide-info = 1
 [rebase]
         updateRefs = true
+[pull]
+        # This will error if fast-forwarding isn't possible
+        # I think you can override with "git pull --rebase" (rebase) or "git pull --no-ff" (merge)
+        ff = only
