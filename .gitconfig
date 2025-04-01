@@ -8,6 +8,7 @@
   blr2 = !git --no-pager branch -l -r 'origin/lvonessen/*'
   rfrom = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
   rfri = "!f() { git rebase -i --onto dev $(git merge-base \"$1\" HEAD); }; f"
+  pushf = push origin --force-with-lease $(git branch --show-current)
 [oh-my-zsh]
   hide-info = 1
 [rebase]
