@@ -5,7 +5,7 @@
         fb = !git diff-tree --no-commit-id --name-only -r HEAD
         bl = !git branch -l
         blr = !git branch -l -r 'origin/lvonessen/*'
-        rebfrom = "!f() { git rebase -i --onto dev $(git merge-base \"$1\" HEAD); }; f"
+        rfrom = "!f() { git rebase -i --onto dev $(git merge-base \"$1\" HEAD); }; f"
 [pager]
         branch = false
 [oh-my-zsh]
