@@ -6,7 +6,8 @@
   bl = !git --no-pager branch -l
   blr = !git branch -l -r 'origin/lvonessen/*'
   blr2 = !git --no-pager branch -l -r 'origin/lvonessen/*'
-  rfrom = "!f() { git rebase -i --onto dev $(git merge-base \"$1\" HEAD); }; f"
+  rfrom = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
+  rfri = "!f() { git rebase -i --onto dev $(git merge-base \"$1\" HEAD); }; f"
 [oh-my-zsh]
   hide-info = 1
 [rebase]
