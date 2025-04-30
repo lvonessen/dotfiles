@@ -10,6 +10,8 @@
   rfrom = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
   # rebase from divergence with $1 onto $1
   rbb = "!f() { git rebase --onto \"$1\" $(git merge-base \"$1\" HEAD); }; f"
+  # rebase from divergence with $1 onto $2
+  rfronto = "!f() { git rebase --onto \"$2\" $(git merge-base \"$1\" HEAD); }; f"
   pushf = !git push origin --force-with-lease $(git branch --show-current)
 [oh-my-zsh]
   hide-info = 1
