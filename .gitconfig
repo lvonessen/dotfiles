@@ -6,8 +6,10 @@
   bl = !git --no-pager branch -l
   blr = !git branch -l -r 'origin/lvonessen/*'
   blr2 = !git --no-pager branch -l -r 'origin/lvonessen/*'
+  # rebase from divergence with $1 onto dev
   rfrom = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
-  rfri = "!f() { git rebase -i --onto dev $(git merge-base \"$1\" HEAD); }; f"
+  # rebase from divergence with $1 onto $1
+  rbb = "!f() { git rebase --onto \"$1\" $(git merge-base \"$1\" HEAD); }; f"
   pushf = !git push origin --force-with-lease $(git branch --show-current)
 [oh-my-zsh]
   hide-info = 1
