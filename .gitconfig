@@ -13,6 +13,8 @@
   # rebase from divergence with $1 onto $2
   rfronto = "!f() { git rebase --onto \"$2\" $(git merge-base \"$1\" HEAD); }; f"
   pushf = !git push origin --force-with-lease $(git branch --show-current)
+  # list local branches whose remote branches have been deleted
+  dead = "!f() { git fetch -p -q && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'; }; f"
 [oh-my-zsh]
   hide-info = 1
 [rebase]
