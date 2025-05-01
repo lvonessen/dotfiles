@@ -15,6 +15,8 @@
   pushf = !git push origin --force-with-lease $(git branch --show-current)
   # list local branches whose remote branches have been deleted
   dead = "!f() { git fetch -p -q && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'; }; f"
+  # for each local branch, list the corresponding remote branch's status (if it's been deleted, this status will be [gone])
+  bstat = !git for-each-ref --format '%(refname) %(upstream:track)' refs/heads
 [oh-my-zsh]
   hide-info = 1
 [rebase]
