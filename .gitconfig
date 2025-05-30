@@ -6,6 +6,8 @@
   bl = !git --no-pager branch -l
   blr = !git branch -l -r 'origin/lvonessen/*'
   blr2 = !git --no-pager branch -l -r 'origin/lvonessen/*'
+  brr = for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(align:45)%(color:reset)%(refname:short)%(color:reset)%(end) (%(color:green)%(committerdate:relative)%(color:reset))'
+
   # rebase from divergence with $1 onto dev
   rfrom = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
   # rebase from divergence with $1 onto $1
@@ -13,10 +15,13 @@
   # rebase from divergence with $1 onto $2
   rfronto = "!f() { git rebase --onto \"$2\" $(git merge-base \"$1\" HEAD); }; f"
   pushf = !git push origin --force-with-lease $(git branch --show-current)
+
   # list local branches whose remote branches have been deleted
+  # can be used like 'git branch -D $(git dead)' after first verifying the output makes sense
   dead = "!f() { git fetch -p -q && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'; }; f"
   # for each local branch, list the corresponding remote branch's status (if it's been deleted, this status will be [gone])
   bstat = "!f() { git fetch -p -q && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads; }; f"
+
 [oh-my-zsh]
   hide-info = 1
 [rebase]
