@@ -1,31 +1,44 @@
 [alias]
-  hist = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) | %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date=short -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not dev
+  # Fix dev/main branch detection:
+  fix_base_branch = !git remote set-head origin --auto
+  
+  # === History ===
+  hist = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) | %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date=short -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not $(basename $(git symbolic-ref refs/remotes/origin/HEAD))
+  histd = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) | %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date=short -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not dev
   histm = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) | %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date=short -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not main
   histall = !git --no-pager log --pretty=format:'%C(green)%h%C(reset) | %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date=short -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/'
-  files = !git diff-tree --no-commit-id --name-only -r HEAD $(git merge-base HEAD dev)
+
+  # === Files ===
+  files = !git diff-tree --no-commit-id --name-only -r HEAD $(git merge-base HEAD $(basename $(git symbolic-ref refs/remotes/origin/HEAD)))
+  filed = !git diff-tree --no-commit-id --name-only -r HEAD $(git merge-base HEAD dev)
   filem = !git diff-tree --no-commit-id --name-only -r HEAD $(git merge-base HEAD main)
   # show files modified since divergence with branch $1
   fileb = "!f() { git diff-tree --no-commit-id --name-only -r HEAD $(git merge-base HEAD \"$1\"); }; f"
   fb = !git diff-tree --no-commit-id --name-only -r HEAD
+
+  # === Branches ===
   bl = !git --no-pager branch -l
   blr = !git branch -l -r 'origin/lvonessen/*'
   blr2 = !git --no-pager branch -l -r 'origin/lvonessen/*'
   brr = for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(align:45)%(color:reset)%(refname:short)%(color:reset)%(end) (%(color:green)%(committerdate:relative)%(color:reset))'
+  #
+  # list local branches whose remote branches have been deleted
+  # can be used like 'git branch -D $(git dead)' after first verifying the output makes sense
+  dead = "!f() { git fetch -p -q && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'; }; f"
+  # for each local branch, list the corresponding remote branch's status (if it's been deleted, this status will be [gone])
+  bstat = "!f() { git fetch -p -q && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads; }; f"
 
-  # rebase from divergence with $1 onto dev
-  rfrom = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
+  # === Rebasing ===
+  # rebase from divergence with $1 onto dev/main
+  rfrom = "!f() { git rebase --onto $(basename $(git symbolic-ref refs/remotes/origin/HEAD)) $(git merge-base \"$1\" HEAD); }; f"
+  rfromd = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
+  rfromm = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
   # rebase from divergence with $1 onto $1
   rbb = "!f() { git rebase --onto \"$1\" $(git merge-base \"$1\" HEAD); }; f"
   # rebase from divergence with $1 onto $2
   rfronto = "!f() { git rebase --onto \"$2\" $(git merge-base \"$1\" HEAD); }; f"
   pushf = !git push origin --force-with-lease $(git branch --show-current)
   ph = !git push origin HEAD
-
-  # list local branches whose remote branches have been deleted
-  # can be used like 'git branch -D $(git dead)' after first verifying the output makes sense
-  dead = "!f() { git fetch -p -q && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'; }; f"
-  # for each local branch, list the corresponding remote branch's status (if it's been deleted, this status will be [gone])
-  bstat = "!f() { git fetch -p -q && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads; }; f"
 
 [oh-my-zsh]
   hide-info = 1
