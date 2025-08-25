@@ -58,6 +58,6 @@
 [column]
   ui = auto
 [branch]
-  sort = committerdate
+  sort = -committerdate
 [rerere]
   enabled = true
