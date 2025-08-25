@@ -51,3 +51,12 @@
   # This will error if fast-forwarding isn't possible
   # I think you can override with "git pull --rebase" (rebase) or "git pull --no-ff" (merge)
   ff = only
+[maintenance]
+	auto = false
+	strategy = incremental
+[column]
+	ui = auto
+[branch]
+	sort = committerdate
+[rerere]
+	enabled = true
