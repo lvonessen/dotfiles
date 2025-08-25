@@ -29,10 +29,11 @@
   bstat = "!f() { git fetch -p -q && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads; }; f"
 
   # === Rebasing ===
+  rhelp = !echo 'Cmd      | From divergence with | Onto\n---------|----------------------|------------\nrfrom    | $1                   | dev or main\nrbb      | $1                   | $1\nrfronto  | $1                   | $2'
   # rebase from divergence with $1 onto dev/main
   rfrom = "!f() { git rebase --onto $(basename $(git symbolic-ref refs/remotes/origin/HEAD)) $(git merge-base \"$1\" HEAD); }; f"
   rfromd = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
-  rfromm = "!f() { git rebase --onto dev $(git merge-base \"$1\" HEAD); }; f"
+  rfromm = "!f() { git rebase --onto main $(git merge-base \"$1\" HEAD); }; f"
   # rebase from divergence with $1 onto $1
   rbb = "!f() { git rebase --onto \"$1\" $(git merge-base \"$1\" HEAD); }; f"
   # rebase from divergence with $1 onto $2
@@ -52,11 +53,11 @@
   # I think you can override with "git pull --rebase" (rebase) or "git pull --no-ff" (merge)
   ff = only
 [maintenance]
-	auto = false
-	strategy = incremental
+  auto = false
+  strategy = incremental
 [column]
-	ui = auto
+  ui = auto
 [branch]
-	sort = committerdate
+  sort = committerdate
 [rerere]
-	enabled = true
+  enabled = true
