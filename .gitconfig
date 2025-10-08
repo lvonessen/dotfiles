@@ -41,6 +41,9 @@
   pushf = !git push origin --force-with-lease $(git branch --show-current)
   ph = !git push origin HEAD
 
+  # === Pulling ===
+  p = !git pull origin $(git branch --show-current)
+
 [oh-my-zsh]
   hide-info = 1
 [rebase]
