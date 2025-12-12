@@ -2,11 +2,11 @@
   # Fix dev/main branch detection:
   fixbasebranch = !git remote set-head origin --auto
   
-  # === History ===
-  hist = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) | %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date=short -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not $(basename $(git symbolic-ref refs/remotes/origin/HEAD))
-  histd = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) | %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date=short -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not dev
-  histm = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) | %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date=short -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not main
-  histall = !git --no-pager log --pretty=format:'%C(green)%h%C(reset) | %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date=short -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/'
+  # === History === (note: if local time zone is incorrect, run `export TZ=Continent/City_Name` to set)
+  hist = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) %C(magenta)%cd%C(reset) %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date='format-local:%a %m-%d %H:%M' -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not $(basename $(git symbolic-ref refs/remotes/origin/HEAD))
+  histd = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) %C(magenta)%cd%C(reset) %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date='format-local:%a %m-%d %H:%M' -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not dev
+  histm = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) %C(magenta)%cd%C(reset) %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date='format-local:%a %m-%d %H:%M' -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/' --not main
+  histall = !git --no-pager log $(git branch --show-current) --pretty=format:'%C(green)%h%C(reset) %C(magenta)%cd%C(reset) %C(green)[%an]%C(reset) %C(reset)%s%C(reset) %C(bold blue)%d%C(reset)' --graph --date='format-local:%a %m-%d %H:%M' -n 7 --decorate-refs-exclude='refs/remotes/' --decorate-refs-exclude='refs/tags/'
 
   # === Files ===
   files = !git diff-tree --no-commit-id --name-only -r HEAD $(git merge-base HEAD $(basename $(git symbolic-ref refs/remotes/origin/HEAD)))
