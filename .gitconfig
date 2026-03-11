@@ -43,6 +43,7 @@
 
   # === Pulling ===
   p = !git pull origin $(git branch --show-current)
+  mergedev = !git fetch origin dev && git merge origin/dev --no-edit
 
 [oh-my-zsh]
   hide-info = 1
